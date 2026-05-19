@@ -39,7 +39,13 @@ public class Mage extends Hero {
     @Override
     public void CastAbility() { //Cast Blizzard
         if (current_mana >= mana_cost) {
-            //cast ability
+            current_mana -= mana_cost;
+            int hits = 0;
+            while (hits < hits_count ) { //&& theres a living enemy in range
+                //find all enemies in range < ability_range. atk for spell_power, enemies will defend.
+                //can hit the same enemy multiple times.
+                hits++;
+            }
         }
         else {
             //not enough mana

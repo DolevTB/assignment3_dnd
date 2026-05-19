@@ -42,8 +42,7 @@ public class Warrior extends Hero {
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
             SetHpCurrent(GetHpCurrent() + 10*GetDefPts());
-            //need to ask the board if there are nearby enemies? need to get a list of all enemies in range
-
+            //find all enemies in range < 3. atk one of them (chosen randomly) for 10% of warrior's hp pool.
         }
         else {
             //ability is on cooldown
