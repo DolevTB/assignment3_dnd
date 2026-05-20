@@ -47,5 +47,4 @@ public class Hunter extends Hero{
             //not enough arrows
         }
     }
-
 }
