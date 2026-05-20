@@ -47,4 +47,8 @@ public class Hunter extends Hero{
             //not enough arrows
         }
     }
+
+    // Getters and Setters
+    public int GetRange() { return range; }
+    
 }

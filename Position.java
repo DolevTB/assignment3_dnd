@@ -8,4 +8,7 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    public int GetX() { return x; }
+    public int GetY() { return y; }
 }

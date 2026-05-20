@@ -11,4 +11,6 @@ public class Monster extends Enemy{
     public void Move(Position player_pos) {
 
     }
+
+    public int GetVisionRange() { return vision_range; }
 }

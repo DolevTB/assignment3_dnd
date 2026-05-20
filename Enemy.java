@@ -7,4 +7,7 @@ public class Enemy extends Unit {
         super(name, hp_pool, atk_pts, def_pts);
         this.exp_val = exp_val;
     }
+
+    // Getters and Setters
+    public int GetExpVal() { return exp_val; }
 }

@@ -51,4 +51,17 @@ public class Mage extends Hero {
             //not enough mana
         }
     }
+
+    // Getters and Setters
+    public int GetManaPool() { return mana_pool; }
+    public int getCurrentMana() { return current_mana; }
+    public int GetManaCost() { return mana_cost; }
+    public int GetSpellPower() { return spell_power; }
+    public int GetHitsCount() { return hits_count; }
+    public int GetAbilityRange() { return ability_range; }
+    
+    
+    
+
+
 }

@@ -3,6 +3,7 @@ package assignment3_dnd;
 public class Warrior extends Hero {
     private int ability_cooldown;
     private int remaining_cooldown;
+    
     public Warrior(String name, int hp_pool, int atk_pts, int def_pts, int ability_cooldown) {
         super(name, hp_pool, atk_pts, def_pts);
         this.ability_cooldown = ability_cooldown;
