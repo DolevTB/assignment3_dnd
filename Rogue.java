@@ -7,7 +7,7 @@ public class Rogue extends Hero {
 
     public Rogue(String name, int hp_pool, int atk_pts, int def_pts, int cost) {
         super(name, hp_pool, atk_pts, def_pts);
-        this.energy = MAX_ENERGY;
+        energy = MAX_ENERGY;
         this.cost = cost;
     }
 

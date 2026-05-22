@@ -11,7 +11,7 @@ public class Mage extends Hero {
     public Mage(String name, int hp_pool, int atk_pts, int def_pts, int mana_pool, int mana_cost, int spell_power, int hits_count, int ability_range) {
         super(name, hp_pool, atk_pts, def_pts);
         this.mana_pool = mana_pool;
-        this.current_mana = mana_pool/4;
+        current_mana = mana_pool/4;
         this.mana_cost = mana_cost;
         this.spell_power = spell_power;
         this.hits_count = hits_count;
@@ -59,9 +59,4 @@ public class Mage extends Hero {
     public int GetSpellPower() { return spell_power; }
     public int GetHitsCount() { return hits_count; }
     public int GetAbilityRange() { return ability_range; }
-    
-    
-    
-
-
 }

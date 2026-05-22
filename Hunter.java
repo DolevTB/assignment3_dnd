@@ -9,8 +9,8 @@ public class Hunter extends Hero{
     public Hunter(String name, int hp_pool, int atk_pts, int def_pts, int range) {
         super(name, hp_pool, atk_pts, def_pts);
         this.range = range;
-        this.arrows = STARTING_ARROWS;
-        this.tick_count = 0;
+        arrows = STARTING_ARROWS;
+        tick_count = 0;
     }
 
     @Override
@@ -50,5 +50,4 @@ public class Hunter extends Hero{
 
     // Getters and Setters
     public int GetRange() { return range; }
-    
 }

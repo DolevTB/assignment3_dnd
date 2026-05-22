@@ -7,7 +7,7 @@ public class Occupant {
         unit = null;
     }
 
-    public Unit GetUnit() { return this.unit; }
+    public Unit GetUnit() { return unit; }
 
     public void SetUnit(Unit unit) {
         this.unit = unit;

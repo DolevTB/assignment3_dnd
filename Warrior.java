@@ -7,7 +7,7 @@ public class Warrior extends Hero {
     public Warrior(String name, int hp_pool, int atk_pts, int def_pts, int ability_cooldown) {
         super(name, hp_pool, atk_pts, def_pts);
         this.ability_cooldown = ability_cooldown;
-        this.remaining_cooldown = 0;
+        remaining_cooldown = 0;
     }
 
     @Override

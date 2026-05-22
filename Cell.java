@@ -11,10 +11,10 @@ public class Cell {
         this.pos = pos;
     }
 
-    public Occupant GetOccupant() { return occupant; }
+    public Occupant GetOccupant() { return occupant; } //if null - wall
     public boolean GetIsFloor() { return isFloor; }
     public Position GetPosition() { return pos; }
-    public boolean GetIsFree() { return isFloor && occupant == null; }
+    public boolean GetIsFree() { return isFloor && occupant.GetUnit() == null; }
 
     public void SetOccupant(Occupant occupant) {
         if (isFloor) { this.occupant = occupant; }
