@@ -6,7 +6,6 @@ public class Unit {
     private int hp_current;
     private int atk_pts;
     private int def_pts;
-    private Position pos;
 
     public Unit(String name, int hp_pool, int atk_pts, int def_pts) {
         this.name = name;
@@ -27,7 +26,6 @@ public class Unit {
     public int GetHpCurrent() { return hp_current; }
     public int GetAtkPts() { return atk_pts; }
     public int GetDefPts() { return def_pts; }
-    public Position GetPos() { return pos; }
 
     public void SetHpPool(int hp_pool) { 
         if(hp_pool >= 0) {
@@ -68,6 +66,4 @@ public class Unit {
             //throw Exception?
         }
     }
-
-    public void SetPos(Position pos) { this.pos = pos; } //TEMPORARY - need to implement Position.
 }

@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public abstract class Hero extends Unit implements HeroicUnit  {
     private int exp;
     private int player_lvl;
@@ -9,6 +11,12 @@ public abstract class Hero extends Unit implements HeroicUnit  {
         this.exp = 0;
         this.player_lvl = 1;
     } 
+
+    @Override
+    public void Tick() {}
+
+    @Override
+    public void Combat(Unit target) {}
 
     public void GainExp(int exp) {
         this.exp += exp;
@@ -22,12 +30,12 @@ public abstract class Hero extends Unit implements HeroicUnit  {
         }
     }
 
-    @Override
-    public void Tick() {}
-
-    @Override
-    public void Combat(Unit target) {}
-
+    public List<Enemy> GetEnemiesInRange(int range) {
+        //returns a list of all enemies within the specified range. 
+        //range is calculated using Euclidean distance formula.
+        return null; //TEMPORARY
+    }
+    
     //Getters and Setters
     public int GetExp() { return exp; }
     public int GetPlayerLvl() { return player_lvl; }
