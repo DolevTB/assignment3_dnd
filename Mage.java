@@ -20,9 +20,9 @@ public class Mage extends Hero {
 
     @Override
     public void GainExp(int exp) {
-        int current_lvl = GetPlayerLvl();
+        int current_lvl = this.player_lvl;
         super.GainExp(exp);
-        while(current_lvl < GetPlayerLvl()) {
+        while(current_lvl < this.player_lvl) {
             current_lvl++;
             mana_pool += 25*current_lvl;
             current_mana = Math.min(current_mana + mana_pool/4, mana_pool);
@@ -33,17 +33,16 @@ public class Mage extends Hero {
     @Override
     public void Tick() {
         super.Tick();
-        current_mana = Math.min(current_mana + GetPlayerLvl(), mana_pool);
+        current_mana = Math.min(current_mana + this.player_lvl, mana_pool);
     }
 
     @Override
-    public void CastAbility() { //Cast Blizzard
+    public void CastAbility(Unit target) { //Cast Blizzard
         if (current_mana >= mana_cost) {
             current_mana -= mana_cost;
             int hits = 0;
-            while (hits < hits_count ) { //&& theres a living enemy in range
-                //find all enemies in range < ability_range. atk for spell_power, enemies will defend.
-                //can hit the same enemy multiple times.
+            while (hits < hits_count) { 
+                Attack(target, spell_power, (int)(Math.random() * (target.def_pts+1))); //defense is random for each hit
                 hits++;
             }
         }
@@ -51,12 +50,4 @@ public class Mage extends Hero {
             //not enough mana
         }
     }
-
-    // Getters and Setters
-    public int GetManaPool() { return mana_pool; }
-    public int getCurrentMana() { return current_mana; }
-    public int GetManaCost() { return mana_cost; }
-    public int GetSpellPower() { return spell_power; }
-    public int GetHitsCount() { return hits_count; }
-    public int GetAbilityRange() { return ability_range; }
 }

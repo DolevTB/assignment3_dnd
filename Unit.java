@@ -18,52 +18,20 @@ public class Unit {
     public void Tick() {}
 
     //This method defines the behavior of any unit when it engages in combat with another unit.
-    public void Combat(Unit target) {}
-
-    //Getters and Setters
-    public String GetName() { return name; }
-    public int GetHpPool() { return hp_pool; }
-    public int GetHpCurrent() { return hp_current; }
-    public int GetAtkPts() { return atk_pts; }
-    public int GetDefPts() { return def_pts; }
-
-    public void SetHpPool(int hp_pool) { 
-        if(hp_pool >= 0) {
-            
-            this.hp_pool = hp_pool; 
-        }
-        else {
-            //throw Exception?
-        }
+    //This function returns true if the target was killed in combat, and false otherwise.
+    public boolean Combat(Unit target) {
+        int atk_roll = (int)(Math.random()*(this.atk_pts + 1));
+        int def_roll = (int)(Math.random()*(this.def_pts + 1));
+        return Attack(target, atk_roll, def_roll); //true == killed target
     }
 
-    public void SetHpCurrent(int hp_current) { 
-        if (hp_current < 0) {
-            this.hp_current = 0; //Unit is dead - need a func for that?
+    public boolean Attack(Unit target, int atk_pts, int def_pts) {
+        int damage = Math.max(0, atk_pts - def_pts);
+        target.hp_current -= damage;
+        if (target.hp_current <= 0) {
+            target.hp_current = 0;
+            return true;
         }
-        else if (hp_current > hp_pool) { //overheal
-            this.hp_current = hp_pool;
-        }
-        else {
-            this.hp_current = hp_current;
-        }
-    }
-
-    public void SetAtkPts(int atk_pts) { 
-        if (atk_pts >= this.atk_pts) { //atk pts can only increase
-            this.atk_pts = atk_pts; 
-        }
-        else {
-            //throw Exception?
-        }
-    }
-
-    public void SetDefPts(int def_pts) { 
-        if (def_pts >= this.def_pts) { //def pts can only increase
-            this.def_pts = def_pts; 
-        }
-        else {
-            //throw Exception?
-        }
-    }
+        return false;
+    }    
 }
