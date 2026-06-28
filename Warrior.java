@@ -47,7 +47,13 @@ public class Warrior extends Hero {
                 Enemy target = validTargets.get(randomIndex);
                 int damage = this.hp_pool / 10;
                 target.hp_current -= damage;
+                if (target.hp_current <= 0) {
+                    target.hp_current = 0;
+                    sendMsg(target.name + " died.");
+                }
             }
+        } else {
+            sendMsg(this.name + " tried to use Avenger's Shield but it's on cooldown (" + remaining_cooldown + " remaining).");
         }
         return true;
     }

@@ -37,12 +37,14 @@ public class Rogue extends Hero {
     public boolean CastAbility(List<Enemy> validTargets, Hero player) { //Fan of Knives
         if (energy >= cost) {
             energy -= cost;
+            sendMsg(this.name + " used Fan of Knives!");
             for (Enemy target : validTargets) {
                 int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
                 Attack(target, this.atk_pts, defenseRoll);
             }
         }
         else {
+            sendMsg(this.name + " tried to use Fan of Knives but lacks energy (" + energy + "/" + cost + ").");
         }
         return true; 
     }

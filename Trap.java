@@ -5,6 +5,7 @@ public class Trap extends Enemy {
     private int invisibility_time;
     private int ticks_count;
     private boolean visible;
+    private boolean triggered = false;
     private int TRAP_RANGE = 2;
 
     public Trap(char tile, String name, int hp_pool, int atk_pts, int def_pts, int exp_val, int visibility_time, int invisibility_time) {
@@ -15,20 +16,30 @@ public class Trap extends Enemy {
         this.visible = true;
     }
 
-    public boolean Tick(Position myPosition, Position targetPosition) {
+    public boolean isTriggered() { return triggered; }
+
+    public void triggerTrap(Hero player) {
+        if (!triggered) {
+            sendMsg("You triggered " + this.name + "!");
+            this.Combat(player);
+            this.triggered = true;
+            this.hp_current = 0;
+        }
+    }
+
+    @Override
+    public void Tick() {
         visible = ticks_count < visibility_time;
-        
         if (ticks_count == (visibility_time + invisibility_time)) {
             ticks_count = 0;
         }
         else {
             ticks_count++;
         }
-        return myPosition.Range(targetPosition) < TRAP_RANGE;
     }
 
     @Override
     public String toString() {
-        return visible ? String.valueOf(super.tile) : ".";
+        return (visible || !triggered)? String.valueOf(super.tile) : ".";
     }
 }

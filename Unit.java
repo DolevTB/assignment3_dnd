@@ -6,6 +6,7 @@ public abstract class Unit {
     protected int hp_current;
     protected int atk_pts;
     protected int def_pts;
+    protected MessageCallback msgCallback;
 
     public Unit(String name, int hp_pool, int atk_pts, int def_pts) {
         this.name = name;
@@ -14,6 +15,17 @@ public abstract class Unit {
         this.atk_pts = atk_pts;
         this.def_pts = def_pts;
     }
+
+    public void setMessageCallback(MessageCallback msgCallback) {
+        this.msgCallback = msgCallback;
+    }
+
+    protected void sendMsg(String msg) {
+        if (this.msgCallback != null) {
+            this.msgCallback.send(msg);
+        }
+    }
+
     //This method defines the behavior of any unit after a Game Tick.
     public void Tick() {}
 
@@ -22,6 +34,8 @@ public abstract class Unit {
     public boolean Combat(Unit target) {
         int atk_roll = (int)(Math.random()*(this.atk_pts + 1));
         int def_roll = (int)(Math.random()*(target.def_pts + 1));
+        sendMsg(this.name + " rolled " + atk_roll + " attack points.");
+        sendMsg(target.name + " rolled " + def_roll + " defense points.");
         return Attack(target, atk_roll, def_roll); //true == killed target
     }
 
@@ -30,6 +44,7 @@ public abstract class Unit {
         target.hp_current -= damage;
         if (target.hp_current <= 0) {
             target.hp_current = 0;
+            sendMsg(target.name + " died.");
             return true;
         }
         return false;

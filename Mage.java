@@ -42,6 +42,7 @@ public class Mage extends Hero {
    public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         if (current_mana >= mana_cost) {
             current_mana -= mana_cost;
+            sendMsg(this.name + " cast Blizzard, costing " + mana_cost + " mana.");
             int hits = 0;
             while (hits < hits_count && !validTargets.isEmpty()) {
                 int randomIndex = (int)(Math.random() * validTargets.size());
@@ -55,6 +56,7 @@ public class Mage extends Hero {
             }
         }
         else {
+            sendMsg(this.name + " tried to cast Blizzard but lacks mana (" + current_mana + "/" + mana_cost + ").");
         }
         return true; 
     }
