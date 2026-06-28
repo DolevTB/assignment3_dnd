@@ -8,16 +8,17 @@ public class Warrior extends Hero {
         super(name, hp_pool, atk_pts, def_pts);
         this.ability_cooldown = ability_cooldown;
         remaining_cooldown = 0;
+        this.ability_range = 3;
     }
 
     @Override
     public void GainExp(int exp) {
-        int current_lvl = GetPlayerLvl();
+        int current_lvl = this.player_lvl;
         super.GainExp(exp);
-        if(current_lvl < GetPlayerLvl()) {
+        if(current_lvl < this.player_lvl) {
              remaining_cooldown = 0;
         }
-        while(current_lvl < GetPlayerLvl()) {
+        while(current_lvl < this.player_lvl) {
             current_lvl++;
             this.hp_pool += 5*current_lvl;
             this.hp_current = this.hp_pool;
@@ -34,12 +35,8 @@ public class Warrior extends Hero {
         }
     }
 
-    //TEMPORARY - not sure if necessary yet
     @Override
-    public void Combat(Unit target) {}
-
-    @Override
-    public void CastAbility() { //Cast Avenger's Shield
+    public void CastAbility(Unit target) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
             this.hp_current += 10*this.def_pts;
@@ -49,4 +46,6 @@ public class Warrior extends Hero {
             //ability is on cooldown
         }
     }
+
+    
 }
