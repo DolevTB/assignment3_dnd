@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Mage extends Hero {
     private int mana_pool;
     private int current_mana;
@@ -37,12 +39,18 @@ public class Mage extends Hero {
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Cast Blizzard
+    public boolean CastAbility(List<Unit> targets) { //Cast Blizzard
         if (current_mana >= mana_cost) {
             current_mana -= mana_cost;
             int hits = 0;
-            while (hits < hits_count) { 
-                Attack(target, spell_power, (int)(Math.random() * (target.def_pts+1))); //defense is random for each hit
+            int targets_count = targets.size();
+            while (hits < hits_count && targets_count > 0) { 
+                Unit target = targets.get((int)(Math.random() * targets_count));
+                //if while attacking, the target dies - remove it from the list.
+                if (Attack(target, spell_power, (int)(Math.random() * (target.def_pts+1)))) {
+                    targets.remove(target);
+                    targets_count--;
+                }   
                 hits++;
             }
         }
@@ -50,5 +58,9 @@ public class Mage extends Hero {
             //not enough mana
         }
         return true; //TEMPORARY
+    }
+
+    public int GetAbilityRange() {
+        return ability_range;
     }
 }

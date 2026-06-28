@@ -1,7 +1,10 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Rogue extends Hero {
     private final int MAX_ENERGY = 100;
+    private final int ABILITY_RANGE = 2;
     private int energy;
     private int cost;
 
@@ -9,7 +12,6 @@ public class Rogue extends Hero {
         super(name, hp_pool, atk_pts, def_pts);
         energy = MAX_ENERGY;
         this.cost = cost;
-        ability_range = 2;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class Rogue extends Hero {
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Fan of Knives
+    public boolean CastAbility(List<Unit> targets) { //Fan of Knives
         if (energy >= cost) {
             energy -= cost;
             //find all enemies in range < 2. atk for 100% atk pts, enemies will defend.
@@ -41,5 +43,9 @@ public class Rogue extends Hero {
             //not enough energy
         }
         return true; //TEMPORARY
+    }
+
+    public int GetAbilityRange() {
+        return ABILITY_RANGE;
     }
 }

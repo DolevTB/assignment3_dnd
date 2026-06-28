@@ -1,13 +1,16 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Hunter extends Hero{
     private int arrows;
     private int tick_count;
+    private int range;
     private final int STARTING_ARROWS = 10;
 
     public Hunter(String name, int hp_pool, int atk_pts, int def_pts, int range) {
         super(name, hp_pool, atk_pts, def_pts);
-        this.ability_range = range;
+        this.range = range;
         arrows = STARTING_ARROWS;
         tick_count = 0;
     }
@@ -37,7 +40,7 @@ public class Hunter extends Hero{
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Shoot
+    public boolean CastAbility(List<Unit> targets) { //Shoot
         if (arrows > 0) {
             arrows--;
             //find the nearest enemy within range. atk for 100% atk pts, 
@@ -47,5 +50,9 @@ public class Hunter extends Hero{
             //not enough arrows
         }
         return true; //TEMPORARY
+    }
+
+    public int GetAbilityRange() {
+        return range;
     }
 }

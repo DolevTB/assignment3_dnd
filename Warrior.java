@@ -1,14 +1,16 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Warrior extends Hero {
     private int ability_cooldown;
     private int remaining_cooldown;
+    private final int ABILITY_RANGE = 3;
     
     public Warrior(String name, int hp_pool, int atk_pts, int def_pts, int ability_cooldown) {
         super(name, hp_pool, atk_pts, def_pts);
         this.ability_cooldown = ability_cooldown;
         remaining_cooldown = 0;
-        this.ability_range = 3;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Cast Avenger's Shield
+    public boolean CastAbility(List<Unit> targets) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
             this.hp_current += 10*this.def_pts;
@@ -46,6 +48,10 @@ public class Warrior extends Hero {
             //ability is on cooldown
         }
         return true; //TEMPORARY
+    }
+
+    public int GetAbilityRange() {
+        return ABILITY_RANGE;
     }
 
     

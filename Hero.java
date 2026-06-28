@@ -3,7 +3,6 @@ package assignment3_dnd;
 public abstract class Hero extends Unit implements HeroicUnit  {
     protected int exp;
     protected int player_lvl;
-    protected int ability_range;
     
     public Hero(String name, int hp_pool, int atk_pts, int def_pts) {
         super(name, hp_pool, atk_pts, def_pts);
@@ -27,6 +26,9 @@ public abstract class Hero extends Unit implements HeroicUnit  {
             this.def_pts += player_lvl;
         }
     }
+
+    public abstract int GetAbilityRange();
+
     @Override
     public String toString() {
         if(this.hp_current > 0) {
