@@ -9,18 +9,19 @@ public class Rogue extends Hero {
         super(name, hp_pool, atk_pts, def_pts);
         energy = MAX_ENERGY;
         this.cost = cost;
+        ability_range = 2;
     }
 
     @Override
     public void GainExp(int exp) {
-        int current_lvl = GetPlayerLvl();
+        int current_lvl = this.player_lvl;
         super.GainExp(exp);
-        if(current_lvl < GetPlayerLvl()) {
+        if(current_lvl < this.player_lvl) {
              energy = MAX_ENERGY;
         }
-        while(current_lvl < GetPlayerLvl()) {
+        while(current_lvl < this.player_lvl) {
             current_lvl++;
-            SetAtkPts(GetAtkPts() + 3*current_lvl);
+            this.atk_pts += 3*current_lvl;
         }
     }
 
@@ -31,7 +32,7 @@ public class Rogue extends Hero {
     }
 
     @Override
-    public void CastAbility() { //Fan of Knives
+    public void CastAbility(Unit target) { //Fan of Knives
         if (energy >= cost) {
             energy -= cost;
             //find all enemies in range < 2. atk for 100% atk pts, enemies will defend.
