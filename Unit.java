@@ -21,7 +21,7 @@ public abstract class Unit {
     //This function returns true if the target was killed in combat, and false otherwise.
     public boolean Combat(Unit target) {
         int atk_roll = (int)(Math.random()*(this.atk_pts + 1));
-        int def_roll = (int)(Math.random()*(this.def_pts + 1));
+        int def_roll = (int)(Math.random()*(target.def_pts + 1));
         return Attack(target, atk_roll, def_roll); //true == killed target
     }
 

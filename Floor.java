@@ -18,7 +18,7 @@ public class Floor extends Cell {
 
     @Override
     public void accept(CellVisitor visitor) {
-        visitor.visit(this); // מנתב אוטומטית ל-visit(Floor)
+        visitor.visit(this);
     }
 
     @Override

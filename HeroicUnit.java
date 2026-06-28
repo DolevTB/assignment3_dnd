@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public interface HeroicUnit {
-    public boolean CastAbility(Unit target);
+    public boolean CastAbility(List<Enemy> validTargets, Hero player);
 }

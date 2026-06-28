@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Boss extends Monster implements HeroicUnit {
     private int ability_frequency;
     private int combat_ticks;
@@ -10,10 +12,11 @@ public class Boss extends Monster implements HeroicUnit {
         this.combat_ticks = 0;
     }
 
-    public boolean CastAbility(Unit target) {
+    @Override
+    public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         int abilityDamage = this.atk_pts;
-        int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
-        return Attack(target, abilityDamage, defenseRoll);
+        int defenseRoll = (int)(Math.random() * (player.def_pts + 1));
+        return Attack(player, abilityDamage, defenseRoll);
     }
 
     public Position Move(Position bossPos, Position playerPos, Hero player) {
@@ -21,7 +24,7 @@ public class Boss extends Monster implements HeroicUnit {
         if (rangeToPlayer < GetVisionRange()) {
             if (combat_ticks == ability_frequency) {
                 combat_ticks = 0;
-                CastAbility(player);
+                CastAbility(null, player);
                 return bossPos; 
             } else {
                 combat_ticks++;

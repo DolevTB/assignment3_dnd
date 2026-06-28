@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Warrior extends Hero {
     private int ability_cooldown;
     private int remaining_cooldown;
@@ -36,16 +38,18 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Cast Avenger's Shield
+    public boolean CastAbility(List<Enemy> validTargets, Hero player) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
-            this.hp_current += 10*this.def_pts;
-            //find all enemies in range < 3. atk one of them (chosen randomly) for 10% of warrior's hp pool.
+            this.hp_current = Math.min(this.hp_current + (10 * this.def_pts), this.hp_pool);
+            if (!validTargets.isEmpty()) {
+                int randomIndex = (int)(Math.random() * validTargets.size());
+                Enemy target = validTargets.get(randomIndex);
+                int damage = this.hp_pool / 10;
+                target.hp_current -= damage;
+            }
         }
-        else {
-            //ability is on cooldown
-        }
-        return true; //TEMPORARY
+        return true;
     }
 
     

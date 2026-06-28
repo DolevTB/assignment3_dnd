@@ -12,6 +12,11 @@ public class Wall extends Cell {
     }
 
     @Override
+    public Occupant GetOccupant() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "#";
     }

@@ -10,4 +10,6 @@ public abstract class Cell {
     public Position GetPosition() { return pos; }
     
     public abstract void accept(CellVisitor visitor);
+
+    public abstract Occupant GetOccupant();
 }

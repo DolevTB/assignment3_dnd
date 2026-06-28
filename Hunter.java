@@ -1,5 +1,7 @@
 package assignment3_dnd;
 
+import java.util.List;
+
 public class Hunter extends Hero{
     private int arrows;
     private int tick_count;
@@ -37,15 +39,17 @@ public class Hunter extends Hero{
     }
 
     @Override
-    public boolean CastAbility(Unit target) { //Shoot
+    public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         if (arrows > 0) {
-            arrows--;
-            //find the nearest enemy within range. atk for 100% atk pts, 
-            //enemy will defend. if there are multiple nearest enemies, choose one randomly.
+            arrows--;            
+            if (!validTargets.isEmpty()) {
+                Enemy target = validTargets.get(0);
+                int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
+                Attack(target, this.atk_pts, defenseRoll);
+            }
         }
         else {
-            //not enough arrows
         }
-        return true; //TEMPORARY
+        return true; 
     }
 }

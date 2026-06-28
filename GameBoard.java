@@ -3,11 +3,104 @@ package assignment3_dnd;
 public class GameBoard {
     private Cell[][] board;
 
-    public GameBoard() {
-
+    public GameBoard(Cell[][] board) {
+        this.board = board;
     }
 
-    public String PrintBoard() {
-        return board.toString();
+    public Cell getCell(Position p) {
+        return board[p.GetY()][p.GetX()];
+    }
+
+    public Occupant getOccupant(Position p) {
+        return getCell(p).GetOccupant();
+    }
+
+    public void setOccupant(Position p, Occupant o) {
+        getCell(p).accept(new CellVisitor() {
+            @Override
+            public void visit(Wall wall) {
+            }
+            
+            @Override
+            public void visit(Floor floor) {
+                floor.SetOccupant(o); 
+            }
+        });
+    }
+
+    public void attemptMove(Unit movingUnit, Position targetPos) {
+        Cell targetCell = getCell(targetPos);
+        targetCell.accept(new CellVisitor() {
+            @Override
+            public void visit(Wall wall) {
+            }
+            
+            @Override
+            public void visit(Floor floor) {
+                handleFloorInteraction(floor, movingUnit, targetPos);
+            }
+        });
+    }
+
+    private void handleFloorInteraction(Floor floor, Unit movingUnit, Position targetPos) {
+        if (floor.GetIsFree()) {
+            Position currentPos = getPositionOf(movingUnit); 
+            executeMovement(movingUnit, currentPos, targetPos);
+        } else {
+            Unit targetUnit = floor.GetOccupant().GetUnit();
+            resolveEncounter(movingUnit, targetUnit);
+        }
+    }
+
+    private void resolveEncounter(Unit attacker, Unit defender) {
+        defender.accept(new OccupantVisitor() {
+            
+            @Override
+            public void visit(Hero targetHero) {
+                attacker.accept(new OccupantVisitor() {
+                    @Override public void visit(Hero movingHero) {}
+                    @Override public void visit(Enemy movingEnemy) { movingEnemy.Combat(targetHero); }
+                });
+            }
+
+            @Override
+            public void visit(Enemy targetEnemy) {
+                attacker.accept(new OccupantVisitor() {
+                    @Override public void visit(Hero movingHero) { movingHero.Combat(targetEnemy); }
+                    @Override public void visit(Enemy movingEnemy) {}
+                });
+            }
+        });
+    }
+
+    private void executeMovement(Unit unit, Position from, Position to) {
+        setOccupant(from, new Occupant());
+        Occupant newOccupant = new Occupant();
+        newOccupant.SetUnit(unit);
+        setOccupant(to, newOccupant);
+    }
+
+    public Position getPositionOf(Unit unit) {
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[y].length; x++) {
+                Occupant occ = board[y][x].GetOccupant();
+                if (occ != null && occ.GetUnit() == unit) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[y].length; x++) {
+                sb.append(board[y][x].toString());
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
