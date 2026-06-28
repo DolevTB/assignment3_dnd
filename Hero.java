@@ -27,6 +27,12 @@ public abstract class Hero extends Unit implements HeroicUnit  {
             this.def_pts += player_lvl;
         }
     }
-
+    @Override
+    public String toString() {
+        if(this.hp_current > 0) {
+            return "@";
+        }
+        return "X";
+    }
     
 }
