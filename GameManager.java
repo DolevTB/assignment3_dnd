@@ -120,9 +120,7 @@ public class GameManager {
 
             if (enemy instanceof Trap trap) {
                 Position trapPos = board.getPositionOf(trap);
-                if (trapPos.Range(playerPos) < 2.0) {
-                    trap.triggerTrap(player);
-                }
+                trap.tickAndTrigger(player, trapPos, playerPos);
             }
         }
     }
@@ -218,6 +216,9 @@ public class GameManager {
             Enemy enemy = createEnemy(c);
             if (enemy != null) {
                 enemy.setMessageCallback(out::send);
+                if (enemy instanceof Boss boss) {
+                    boss.setPlayer(player);
+                }
                 enemies.add(enemy);
                 placeUnit(floor, enemy);
             }

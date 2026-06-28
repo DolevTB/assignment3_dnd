@@ -6,7 +6,7 @@ public class Trap extends Enemy {
     private int ticks_count;
     private boolean visible;
     private boolean triggered = false;
-    private int TRAP_RANGE = 2;
+    private static final int TRAP_RANGE = 2;
 
     public Trap(char tile, String name, int hp_pool, int atk_pts, int def_pts, int exp_val, int visibility_time, int invisibility_time) {
         super(tile, name, hp_pool, atk_pts, def_pts, exp_val);
@@ -18,8 +18,15 @@ public class Trap extends Enemy {
 
     public boolean isTriggered() { return triggered; }
 
-    public void triggerTrap(Hero player) {
-        if (!triggered) {
+    public void tickAndTrigger(Hero player, Position trapPos, Position playerPos) {
+        visible = ticks_count < visibility_time;
+        if (ticks_count == (visibility_time + invisibility_time)) {
+            ticks_count = 0;
+        } else {
+            ticks_count++;
+        }
+
+        if (!triggered && trapPos.Range(playerPos) < TRAP_RANGE) {
             sendMsg("You triggered " + this.name + "!");
             this.Combat(player);
             this.triggered = true;
@@ -32,14 +39,13 @@ public class Trap extends Enemy {
         visible = ticks_count < visibility_time;
         if (ticks_count == (visibility_time + invisibility_time)) {
             ticks_count = 0;
-        }
-        else {
+        } else {
             ticks_count++;
         }
     }
 
     @Override
     public String toString() {
-        return (visible || !triggered)? String.valueOf(super.tile) : ".";
+        return (visible || !triggered) ? String.valueOf(super.tile) : ".";
     }
 }

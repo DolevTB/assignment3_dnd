@@ -53,20 +53,31 @@ public class GameBoard {
     }
 
     private void resolveEncounter(Unit attacker, Unit defender) {
+        Position attackerPos = getPositionOf(attacker);
+        Position defenderPos = getPositionOf(defender);
+
         defender.accept(new OccupantVisitor() {
-            
+
             @Override
             public void visit(Hero targetHero) {
                 attacker.accept(new OccupantVisitor() {
                     @Override public void visit(Hero movingHero) {}
-                    @Override public void visit(Enemy movingEnemy) { movingEnemy.Combat(targetHero); }
+                    @Override public void visit(Enemy movingEnemy) {
+                        movingEnemy.Combat(targetHero);
+                    }
                 });
             }
 
             @Override
             public void visit(Enemy targetEnemy) {
                 attacker.accept(new OccupantVisitor() {
-                    @Override public void visit(Hero movingHero) { movingHero.Combat(targetEnemy); }
+                    @Override public void visit(Hero movingHero) {
+                        boolean killed = movingHero.Combat(targetEnemy);
+                        if (killed) {
+                            movingHero.GainExp(targetEnemy.GetExpVal());
+                            executeMovement(movingHero, attackerPos, defenderPos);
+                        }
+                    }
                     @Override public void visit(Enemy movingEnemy) {}
                 });
             }
