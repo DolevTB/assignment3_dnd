@@ -1,11 +1,11 @@
 package assignment3_dnd;
 
 public class Unit {
-    private String name;
-    private int hp_pool;
-    private int hp_current;
-    private int atk_pts;
-    private int def_pts;
+    protected String name;
+    protected int hp_pool;
+    protected int hp_current;
+    protected int atk_pts;
+    protected int def_pts;
 
     public Unit(String name, int hp_pool, int atk_pts, int def_pts) {
         this.name = name;

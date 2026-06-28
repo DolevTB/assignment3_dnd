@@ -3,8 +3,8 @@ package assignment3_dnd;
 import java.util.List;
 
 public abstract class Hero extends Unit implements HeroicUnit  {
-    private int exp;
-    private int player_lvl;
+    protected int exp;
+    protected int player_lvl;
     
     public Hero(String name, int hp_pool, int atk_pts, int def_pts) {
         super(name, hp_pool, atk_pts, def_pts);
@@ -23,10 +23,10 @@ public abstract class Hero extends Unit implements HeroicUnit  {
         while (this.exp >= 50*player_lvl) {
             this.exp -= 50*player_lvl;
             player_lvl++;
-            SetHpPool(GetHpPool() + 10*player_lvl);
-            SetHpCurrent(GetHpPool());
-            SetAtkPts(GetAtkPts() + 4*player_lvl);
-            SetDefPts(GetDefPts() + player_lvl);
+            this.hp_pool += 10*player_lvl;
+            this.hp_current = this.hp_pool;
+            this.atk_pts += 4*player_lvl;
+            this.def_pts += player_lvl;
         }
     }
 

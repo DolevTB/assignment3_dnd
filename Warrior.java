@@ -19,10 +19,10 @@ public class Warrior extends Hero {
         }
         while(current_lvl < GetPlayerLvl()) {
             current_lvl++;
-            SetHpPool(GetHpPool() + 5*current_lvl);
-            SetHpCurrent(GetHpPool());
-            SetAtkPts(GetAtkPts() + 2*current_lvl);
-            SetDefPts(GetDefPts() + current_lvl);
+            this.hp_pool += 5*current_lvl;
+            this.hp_current = this.hp_pool;
+            this.atk_pts += 2*current_lvl;
+            this.def_pts += current_lvl;
         }
     }
 
@@ -42,7 +42,7 @@ public class Warrior extends Hero {
     public void CastAbility() { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
-            SetHpCurrent(GetHpCurrent() + 10*GetDefPts());
+            this.hp_current += 10*this.def_pts;
             //find all enemies in range < 3. atk one of them (chosen randomly) for 10% of warrior's hp pool.
         }
         else {

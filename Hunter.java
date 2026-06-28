@@ -20,6 +20,7 @@ public class Hunter extends Hero{
         while(current_lvl < GetPlayerLvl()) {
             current_lvl++;
             arrows += 10*current_lvl;
+            this.atk_pts += 2*current_lvl;
             SetAtkPts(GetAtkPts() + 2*current_lvl);
             SetDefPts(GetDefPts() + current_lvl);
         }
