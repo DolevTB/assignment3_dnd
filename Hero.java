@@ -35,4 +35,8 @@ public abstract class Hero extends Unit implements HeroicUnit  {
         return "X";
     }
     
+    @Override
+    public void accept(OccupantVisitor visitor) {
+        visitor.visit(this);
+    }
 }

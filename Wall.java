@@ -1,0 +1,18 @@
+package assignment3_dnd;
+
+public class Wall extends Cell {
+    
+    public Wall(Position pos) {
+        super(pos);
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return "#";
+    }
+}

@@ -1,6 +1,6 @@
 package assignment3_dnd;
 
-public class Unit {
+public abstract class Unit {
     protected String name;
     protected int hp_pool;
     protected int hp_current;
@@ -33,5 +33,7 @@ public class Unit {
             return true;
         }
         return false;
-    }    
+    }
+
+    public abstract void accept(OccupantVisitor visitor);
 }

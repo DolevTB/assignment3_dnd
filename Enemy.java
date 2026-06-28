@@ -18,4 +18,9 @@ public abstract class Enemy extends Unit {
     public String toString() {
         return String.valueOf(tile);
     }
+
+    @Override
+    public void accept(OccupantVisitor visitor) {
+        visitor.visit(this);
+    }
 }

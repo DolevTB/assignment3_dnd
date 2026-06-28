@@ -1,23 +1,13 @@
 package assignment3_dnd;
 
-public class Cell {
-    private Occupant occupant;
-    private boolean isFloor;
-    private Position pos;
+public abstract class Cell {
+    protected Position pos;
 
-    public Cell(boolean isFloor, Position pos) {
-        this.isFloor = isFloor;
-        if (isFloor) { occupant = new Occupant(); }
+    public Cell(Position pos) {
         this.pos = pos;
     }
 
-    public Occupant GetOccupant() { return occupant; } //if null - wall
-    public boolean GetIsFloor() { return isFloor; }
     public Position GetPosition() { return pos; }
-    public boolean GetIsFree() { return isFloor && occupant.GetUnit() == null; }
-
-    public void SetOccupant(Occupant occupant) {
-        if (isFloor) { this.occupant = occupant; }
-        //else { throw exception? }
-    }
+    
+    public abstract void accept(CellVisitor visitor);
 }
