@@ -37,7 +37,7 @@ public class Hunter extends Hero{
     }
 
     @Override
-    public void CastAbility(Unit target) { //Shoot
+    public boolean CastAbility(Unit target) { //Shoot
         if (arrows > 0) {
             arrows--;
             //find the nearest enemy within range. atk for 100% atk pts, 
@@ -46,5 +46,6 @@ public class Hunter extends Hero{
         else {
             //not enough arrows
         }
+        return true; //TEMPORARY
     }
 }

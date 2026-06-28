@@ -36,7 +36,7 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public void CastAbility(Unit target) { //Cast Avenger's Shield
+    public boolean CastAbility(Unit target) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
             this.hp_current += 10*this.def_pts;
@@ -45,6 +45,7 @@ public class Warrior extends Hero {
         else {
             //ability is on cooldown
         }
+        return true; //TEMPORARY
     }
 
     

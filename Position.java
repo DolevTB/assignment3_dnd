@@ -11,4 +11,10 @@ public class Position {
 
     public int GetX() { return x; }
     public int GetY() { return y; }
+
+    public double Range(Position other) {
+        int dx = this.x - other.x;
+        int dy = this.y - other.y;
+        return Math.sqrt(dx*dx + dy*dy);
+    }
 }

@@ -37,7 +37,7 @@ public class Mage extends Hero {
     }
 
     @Override
-    public void CastAbility(Unit target) { //Cast Blizzard
+    public boolean CastAbility(Unit target) { //Cast Blizzard
         if (current_mana >= mana_cost) {
             current_mana -= mana_cost;
             int hits = 0;
@@ -49,5 +49,6 @@ public class Mage extends Hero {
         else {
             //not enough mana
         }
+        return true; //TEMPORARY
     }
 }

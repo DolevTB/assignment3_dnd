@@ -32,7 +32,7 @@ public class Rogue extends Hero {
     }
 
     @Override
-    public void CastAbility(Unit target) { //Fan of Knives
+    public boolean CastAbility(Unit target) { //Fan of Knives
         if (energy >= cost) {
             energy -= cost;
             //find all enemies in range < 2. atk for 100% atk pts, enemies will defend.
@@ -40,5 +40,6 @@ public class Rogue extends Hero {
         else {
             //not enough energy
         }
+        return true; //TEMPORARY
     }
 }
