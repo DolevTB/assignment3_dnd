@@ -5,6 +5,7 @@ public class Trap extends Enemy {
     private int invisibility_time;
     private int ticks_count;
     private boolean visible;
+    private int TRAP_RANGE = 2;
 
     public Trap(char tile, String name, int hp_pool, int atk_pts, int def_pts, int exp_val, int visibility_time, int invisibility_time) {
         super(tile, name, hp_pool, atk_pts, def_pts, exp_val);
@@ -23,7 +24,7 @@ public class Trap extends Enemy {
         else {
             ticks_count++;
         }
-        return myPosition.Range(targetPosition) < 2;
+        return myPosition.Range(targetPosition) < TRAP_RANGE;
     }
 
     @Override

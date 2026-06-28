@@ -10,8 +10,10 @@ public class Boss extends Monster implements HeroicUnit {
         this.combat_ticks = 0;
     }
 
-    public void CastAbility(Hero targetPlayer) {
-        this.Combat(targetPlayer); 
+    public boolean CastAbility(Unit targetPlayer) {
+        int abilityDamage = this.atk_pts;
+        int defenseRoll = (int)(Math.random() * (targetPlayer.def_pts + 1));
+        return Attack(targetPlayer,abilityDamage, defenseRoll);
     }
 
     public Position Move(Position bossPos, Position playerPos, Hero player) {
