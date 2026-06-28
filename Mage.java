@@ -38,6 +38,10 @@ public class Mage extends Hero {
         current_mana = Math.min(current_mana + this.player_lvl, mana_pool);
     }
 
+    public String description() {
+        return super.description() + String.format(" | Mana: %d/%d | Spell Power: %d", current_mana, mana_pool, spell_power);
+    }
+
     @Override
    public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         if (current_mana >= mana_cost) {

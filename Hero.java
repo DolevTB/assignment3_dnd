@@ -27,6 +27,13 @@ public abstract class Hero extends Unit implements HeroicUnit  {
             this.def_pts += player_lvl;
         }
     }
+
+    @Override
+    public String description() {
+        return String.format("Name: %s | HP: %d/%d | ATK: %d | DEF: %d | Level: %d | EXP: %d",
+                name, hp_current, hp_pool, atk_pts, def_pts, player_lvl, exp);
+    }
+    
     @Override
     public String toString() {
         if(this.hp_current > 0) {

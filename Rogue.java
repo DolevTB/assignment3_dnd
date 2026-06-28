@@ -34,6 +34,11 @@ public class Rogue extends Hero {
     }
 
     @Override
+    public String description() {
+        return super.description() + String.format(" | Energy: %d/%d", energy, MAX_ENERGY);
+    }
+
+    @Override
     public boolean CastAbility(List<Enemy> validTargets, Hero player) { //Fan of Knives
         if (energy >= cost) {
             energy -= cost;

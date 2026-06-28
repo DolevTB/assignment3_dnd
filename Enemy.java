@@ -15,6 +15,12 @@ public abstract class Enemy extends Unit {
     }
 
     @Override
+    public String description() {
+        return String.format("Name: %s | HP: %d/%d | ATK: %d | DEF: %d",
+                name, hp_current, hp_pool, atk_pts, def_pts);
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(tile);
     }

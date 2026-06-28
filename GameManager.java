@@ -97,6 +97,7 @@ public class GameManager {
     private void playLevel() {
         while (isPlayerAlive() && !enemies.isEmpty()) {
             out.send(board.toString());
+            out.send(player.description());
             char input = readInput();
             processPlayerInput(input);
             player.Tick();

@@ -50,5 +50,8 @@ public abstract class Unit {
         return false;
     }
 
+    public abstract String description();
+
+
     public abstract void accept(OccupantVisitor visitor);
 }

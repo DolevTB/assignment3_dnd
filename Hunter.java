@@ -39,6 +39,11 @@ public class Hunter extends Hero{
     }
 
     @Override
+    public String description() {
+        return super.description() + String.format(" | Arrows: %d", arrows);
+    }
+
+    @Override
     public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         if (arrows > 0) {
             arrows--;            

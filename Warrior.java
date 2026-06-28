@@ -37,6 +37,10 @@ public class Warrior extends Hero {
         }
     }
 
+    public String description() {
+        return super.description() + String.format(" | Cooldown: %d/%d", remaining_cooldown, ability_cooldown);
+    }
+
     @Override
     public boolean CastAbility(List<Enemy> validTargets, Hero player) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
