@@ -44,7 +44,7 @@ public class Warrior extends Hero {
     @Override
     public boolean CastAbility(List<Enemy> validTargets, Hero player) { //Cast Avenger's Shield
         if (remaining_cooldown == 0) {
-            remaining_cooldown = ability_cooldown;
+            remaining_cooldown = ability_cooldown + 1;
             this.hp_current = Math.min(this.hp_current + (10 * this.def_pts), this.hp_pool);
             sendMsg(this.name + " used Avenger's Shield, healing for " + (10 * this.def_pts) + ".");
             if (!validTargets.isEmpty()) {

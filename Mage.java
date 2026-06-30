@@ -8,7 +8,6 @@ public class Mage extends Hero {
     private int mana_cost;
     private int spell_power;
     private int hits_count;
-    private int ability_range;
 
     public Mage(String name, int hp_pool, int atk_pts, int def_pts, int mana_pool, int mana_cost, int spell_power, int hits_count, int ability_range) {
         super(name, hp_pool, atk_pts, def_pts);
