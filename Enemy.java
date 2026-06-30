@@ -10,6 +10,8 @@ public abstract class Enemy extends Unit {
         this.exp_val = exp_val;
     }
 
+    public abstract void processTurn(GameBoard board, Hero player);
+
     public int GetExpVal() { 
         return exp_val; 
     }

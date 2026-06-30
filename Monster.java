@@ -10,6 +10,13 @@ public class Monster extends Enemy {
         this.vision_range = vision_range;
     }
 
+    @Override
+    public void processTurn(GameBoard board, Hero player) {
+        Position currentPos = board.getPositionOf(this);
+        Position targetPos = this.Move(currentPos, board.getPositionOf(player));
+        board.attemptMove(this, targetPos);
+    }
+
     public Position Move(Position myPos, Position playerPos) {
         double range = myPos.Range(playerPos);
         if (range < vision_range) {

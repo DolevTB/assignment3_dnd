@@ -18,6 +18,12 @@ public class Trap extends Enemy {
 
     public boolean isTriggered() { return triggered; }
 
+    @Override
+    public void processTurn(GameBoard board, Hero player) {
+        Position currentPos = board.getPositionOf(this);
+        this.tickAndTrigger(player, currentPos, board.getPositionOf(player));
+    }
+
     public void tickAndTrigger(Hero player, Position trapPos, Position playerPos) {
         visible = ticks_count < visibility_time;
         if (ticks_count == (visibility_time + invisibility_time)) {
@@ -31,6 +37,7 @@ public class Trap extends Enemy {
             this.Combat(player);
             this.triggered = true;
             this.hp_current = 0;
+            player.GainExp(this.exp_val);
         }
     }
 

@@ -154,22 +154,11 @@ public class GameManager {
         }
     }
 
-    /** Tick every living enemy: move monsters, trigger traps. */
+    /** Tick every living enemy: move monsters, trigger traps, double dispatch. */
     private void tickEnemies() {
-        Position playerPos = board.getPositionOf(player);
-
         for (Enemy enemy : enemies) {
-            if (enemy.hp_current <= 0) continue;
-
-            if (enemy instanceof Monster monster) {
-                Position enemyPos  = board.getPositionOf(monster);
-                Position targetPos = monster.Move(enemyPos, playerPos);
-                board.attemptMove(monster, targetPos);
-            }
-
-            if (enemy instanceof Trap trap) {
-                Position trapPos = board.getPositionOf(trap);
-                trap.tickAndTrigger(player, trapPos, playerPos);
+            if (enemy.hp_current > 0) {
+                enemy.processTurn(board, player);
             }
         }
     }
@@ -201,12 +190,19 @@ public class GameManager {
     private boolean movePlayer(int dx, int dy) {
         Position current = board.getPositionOf(player);
         Position target  = new Position(current.GetX() + dx, current.GetY() + dy);
-        if (board.getCell(target) instanceof Wall) {
-            out.send("You cannot move there, it's a wall!");
-            return false;
-        }
-        board.attemptMove(player, target);
-        return true;
+        final boolean[] validMove = {true};
+        board.getCell(target).accept(new CellVisitor() {
+            @Override
+            public void visit(Wall wall) {
+                out.send("You cannot move there, it's a wall!");
+                validMove[0] = false;
+            }
+            @Override
+            public void visit(Floor floor) {
+                board.attemptMove(player, target);
+            }
+        });
+        return validMove[0];
     }
 
     private boolean castAbility() {
