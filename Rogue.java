@@ -45,11 +45,15 @@ public class Rogue extends Hero {
             sendMsg(this.name + " used Fan of Knives!");
             for (Enemy target : validTargets) {
                 int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
-                Attack(target, this.atk_pts, defenseRoll);
+                boolean killed = Attack(target, this.atk_pts, defenseRoll);
+                if (killed) {
+                    this.GainExp(target.GetExpVal());
+                }
             }
         }
         else {
             sendMsg(this.name + " tried to use Fan of Knives but lacks energy (" + energy + "/" + cost + ").");
+            return false;
         }
         return true; 
     }

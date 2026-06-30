@@ -43,7 +43,7 @@ public class Mage extends Hero {
     }
 
     @Override
-   public boolean CastAbility(List<Enemy> validTargets, Hero player) {
+    public boolean CastAbility(List<Enemy> validTargets, Hero player) {
         if (current_mana >= mana_cost) {
             current_mana -= mana_cost;
             sendMsg(this.name + " cast Blizzard, costing " + mana_cost + " mana.");
@@ -52,8 +52,9 @@ public class Mage extends Hero {
                 int randomIndex = (int)(Math.random() * validTargets.size());
                 Enemy target = validTargets.get(randomIndex);
                 int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
-                Attack(target, spell_power, defenseRoll);
-                if (target.hp_current <= 0) {
+                boolean killed = Attack(target, spell_power, defenseRoll);
+                if (killed) {
+                    this.GainExp(target.GetExpVal());
                     validTargets.remove(randomIndex);
                 }
                 hits++;
@@ -61,6 +62,7 @@ public class Mage extends Hero {
         }
         else {
             sendMsg(this.name + " tried to cast Blizzard but lacks mana (" + current_mana + "/" + mana_cost + ").");
+            return false;
         }
         return true; 
     }

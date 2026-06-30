@@ -46,18 +46,19 @@ public class Warrior extends Hero {
         if (remaining_cooldown == 0) {
             remaining_cooldown = ability_cooldown;
             this.hp_current = Math.min(this.hp_current + (10 * this.def_pts), this.hp_pool);
+            sendMsg(this.name + " used Avenger's Shield, healing for " + (10 * this.def_pts) + ".");
             if (!validTargets.isEmpty()) {
                 int randomIndex = (int)(Math.random() * validTargets.size());
                 Enemy target = validTargets.get(randomIndex);
                 int damage = this.hp_pool / 10;
-                target.hp_current -= damage;
-                if (target.hp_current <= 0) {
-                    target.hp_current = 0;
-                    sendMsg(target.name + " died.");
+                boolean killed = Attack(target, damage, 0); 
+                if (killed) {
+                    this.GainExp(target.GetExpVal());
                 }
             }
         } else {
             sendMsg(this.name + " tried to use Avenger's Shield but it's on cooldown (" + remaining_cooldown + " remaining).");
+            return false;
         }
         return true;
     }

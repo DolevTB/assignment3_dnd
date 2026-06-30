@@ -32,8 +32,13 @@ public abstract class Unit {
     //This method defines the behavior of any unit when it engages in combat with another unit.
     //This function returns true if the target was killed in combat, and false otherwise.
     public boolean Combat(Unit target) {
+        sendMsg(this.name + " engaged in combat with " + target.name + ".");
+        sendMsg(this.description());
+        sendMsg(target.description());
+
         int atk_roll = (int)(Math.random()*(this.atk_pts + 1));
         int def_roll = (int)(Math.random()*(target.def_pts + 1));
+
         sendMsg(this.name + " rolled " + atk_roll + " attack points.");
         sendMsg(target.name + " rolled " + def_roll + " defense points.");
         return Attack(target, atk_roll, def_roll); //true == killed target
@@ -41,6 +46,7 @@ public abstract class Unit {
 
     public boolean Attack(Unit target, int atk_pts, int def_pts) {
         int damage = Math.max(0, atk_pts - def_pts);
+        sendMsg(this.name + " dealt " + damage + " damage to " + target.name + ".");
         target.hp_current -= damage;
         if (target.hp_current <= 0) {
             target.hp_current = 0;

@@ -24,7 +24,7 @@ public class GameManager {
         this(System.out::println);
     }
 
-    /** Inject a custom output sink (e.g. a GUI logger or test spy). */
+    /** Inject a custom output sink. */
     public GameManager(MessageCallback out) {
         this.out = out;
         this.scanner = new Scanner(System.in);
@@ -74,7 +74,7 @@ public class GameManager {
         scanner.nextLine();
 
         player = createPlayer(choice);
-        player.setMessageCallback(out::send);
+        player.setMessageCallback(out);
     }
 
     private Hero createPlayer(int choice) {
@@ -99,10 +99,21 @@ public class GameManager {
             out.send(board.toString());
             out.send(player.description());
             char input = readInput();
-            processPlayerInput(input);
-            player.Tick();
-            tickEnemies();
-            enemies.removeIf(e -> e.hp_current <= 0);
+            boolean validTurn = processPlayerInput(input);
+            if (validTurn) {
+                player.Tick();
+                tickEnemies();
+                enemies.removeIf(e -> {
+                    if (e.hp_current <= 0) {
+                        Position p = board.getPositionOf(e);
+                        if (p != null) {
+                            board.setOccupant(p, new Occupant());
+                        }
+                        return true;
+                    }
+                    return false;
+                });
+            }
         }
     }
 
@@ -135,25 +146,33 @@ public class GameManager {
         return line.isEmpty() ? ' ' : line.charAt(0);
     }
 
-    private void processPlayerInput(char input) {
-        switch (input) {
+    private boolean processPlayerInput(char input) {
+        return switch (input) {
             case 'w' -> movePlayer(0, -1);
             case 's' -> movePlayer(0,  1);
             case 'a' -> movePlayer(-1, 0);
             case 'd' -> movePlayer(1,  0);
             case 'e' -> castAbility();
-            case 'q' -> { /* pass / do nothing */ }
-            default  -> { /* unrecognised input: ignore */ }
-        }
+            case 'q' -> true;
+            default  -> { 
+                out.send("Invalid input. Please use w/a/s/d/e/q.");
+                yield false;
+            }
+        };
     }
 
-    private void movePlayer(int dx, int dy) {
+    private boolean movePlayer(int dx, int dy) {
         Position current = board.getPositionOf(player);
         Position target  = new Position(current.GetX() + dx, current.GetY() + dy);
+        if (board.getCell(target) instanceof Wall) {
+            out.send("You cannot move there, it's a wall!");
+            return false;
+        }
         board.attemptMove(player, target);
+        return true;
     }
 
-    private void castAbility() {
+    private boolean castAbility() {
         Position playerPos = board.getPositionOf(player);
 
         List<Enemy> enemiesInRange = enemies.stream()
@@ -161,7 +180,7 @@ public class GameManager {
                 .sorted(Comparator.comparingDouble(e -> playerPos.Range(board.getPositionOf(e))))
                 .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
 
-        player.CastAbility(enemiesInRange, player);
+        return player.CastAbility(enemiesInRange, player);
     }
 
     // -------------------------------------------------------------------------
@@ -196,7 +215,10 @@ public class GameManager {
         List<String> lines = new ArrayList<>();
         try (Scanner fileScanner = new Scanner(file)) {
             while (fileScanner.hasNextLine()) {
-                lines.add(fileScanner.nextLine());
+                String line = fileScanner.nextLine();
+                if (!line.trim().isEmpty()){
+                    lines.add(line);
+                }
             }
         } catch (Exception e) {
             out.send("Error reading level file: " + e.getMessage());

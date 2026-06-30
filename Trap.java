@@ -46,6 +46,6 @@ public class Trap extends Enemy {
 
     @Override
     public String toString() {
-        return (visible || !triggered) ? String.valueOf(super.tile) : ".";
+        return (visible && !triggered) ? String.valueOf(super.tile) : ".";
     }
 }

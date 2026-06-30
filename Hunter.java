@@ -22,7 +22,6 @@ public class Hunter extends Hero{
             current_lvl++;
             arrows += 10*current_lvl;
             this.atk_pts += 2*current_lvl;
-            this.atk_pts += 2*current_lvl;
             def_pts += current_lvl;
         }
     }
@@ -50,10 +49,15 @@ public class Hunter extends Hero{
             if (!validTargets.isEmpty()) {
                 Enemy target = validTargets.get(0);
                 int defenseRoll = (int)(Math.random() * (target.def_pts + 1));
-                Attack(target, this.atk_pts, defenseRoll);
+                boolean killed = Attack(target, this.atk_pts, defenseRoll);
+                if (killed) {
+                    this.GainExp(target.GetExpVal());
+                }
             }
         }
         else {
+            sendMsg(this.name + " tried to shoot, but has no arrows left!");
+            return false;
         }
         return true; 
     }
