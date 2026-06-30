@@ -169,7 +169,7 @@ public class GameManager {
 
     private char readInput() {
         String line = scanner.nextLine();
-        return line.isEmpty() ? ' ' : line.charAt(0);
+        return line.isEmpty() ? ' ' : line.toLowerCase().charAt(0);
     }
 
     private boolean processPlayerInput(char input) {
@@ -263,18 +263,13 @@ public class GameManager {
     /** Convert a single map character into the correct Cell. */
     private Cell parseCell(char c, Position pos) {
         if (c == '#') return new Wall(pos);
-
         Floor floor = new Floor(pos);
-
         if (c == '@') {
             placeUnit(floor, player);
         } else if (c != '.') {
             Enemy enemy = createEnemy(c);
             if (enemy != null) {
-                enemy.setMessageCallback(out::send);
-                if (enemy instanceof Boss boss) {
-                    boss.setPlayer(player);
-                }
+                enemy.setMessageCallback(out);
                 enemies.add(enemy);
                 placeUnit(floor, enemy);
             }
