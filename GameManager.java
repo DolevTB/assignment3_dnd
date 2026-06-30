@@ -37,28 +37,64 @@ public class GameManager {
     // -------------------------------------------------------------------------
 
     public void startGame() {
-        out.send("Welcome to D&D!");
-        selectPlayer();
+        boolean playAgain = true;
+        while (playAgain) {
+            this.currentLevel = 1;
+            this.enemies.clear();
+            clearScreen();
+            out.send("Welcome to D&D!");
+            selectPlayer();
+            while (currentLevel <= MAX_LEVELS && isPlayerAlive()) {
+                String levelFile = LEVEL_FILE_PREFIX + currentLevel + LEVEL_FILE_SUFFIX;
+                if (!loadLevel(levelFile)) {
+                    break;
+                }
+                out.send("--- Loading Level " + currentLevel + " ---");
+                playLevel();
 
-        while (currentLevel <= MAX_LEVELS && isPlayerAlive()) {
-            String levelFile = LEVEL_FILE_PREFIX + currentLevel + LEVEL_FILE_SUFFIX;
-            if (!loadLevel(levelFile)) {
-                break;
+                if (isPlayerAlive()) {
+                    currentLevel++;
+                }
             }
-            out.send("--- Loading Level " + currentLevel + " ---");
-            playLevel();
-
-            if (isPlayerAlive()) {
-                currentLevel++;
+            out.send(isPlayerAlive() ? "You won!" : "Game Over.");
+            boolean validChoice = false;
+            while (!validChoice) {
+                out.send("Do you want to restart (y/n)?");
+                out.send("If not there will be consequences Muwhahaha.");
+                String choice = scanner.nextLine().trim().toLowerCase();
+                switch (choice) {
+                    case "y" -> {
+                        clearScreen();
+                        validChoice = true;
+                    }
+                    case "n" -> {
+                        out.send("Thank you for playing, deleting system32...");
+                        validChoice = true;
+                        playAgain = false;
+                    }
+                    default -> {
+                        out.send("Invalid input! Please enter exactly 'y' or 'n'.");
+                    }
+                }
             }
         }
-
-        out.send(isPlayerAlive() ? "You won!" : "Game Over.");
     }
 
     // -------------------------------------------------------------------------
     // Player selection
     // -------------------------------------------------------------------------
+    private void clearScreen() {
+        try {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            for (int i = 0; i < 50; ++i) System.out.println();
+        }
+    }
 
     private void selectPlayer() {
         out.send("Select player:");
@@ -99,6 +135,7 @@ public class GameManager {
             out.send(board.toString());
             out.send(player.description());
             char input = readInput();
+            clearScreen();
             boolean validTurn = processPlayerInput(input);
             if (validTurn) {
                 player.Tick();
